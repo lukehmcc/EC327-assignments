@@ -1,0 +1,20 @@
+The signature of the insertInOrder function in the above problem, Problem 3 was:
+Node* insertInOrder(Node* head, int newValue);
+What would be the problem with simplifying the signature to be:
+void insertInOrder(Node* head, int newValue);
+and having head always point at the head of the resulting linked list?
+- The problem is that if something had to be inserted _before_ the head, there would be no easy way
+  to change this as the head point is static.
+
+
+Once you have identified the problem, can you think of another way that we could have modified
+the signature to address the concern?
+- If the desired outcome is to have a void return. A double pointer (void insertInOrder(Node **head, 
+  int newValue)) would work. This would allow you to change where the head points to without actually
+  modifying any individual nodes.
+
+What are the trade-offs between addressing it the way we have in the problem, and the
+alternate way that you have identified?
+- The major trade-off is memory safety. If you pass in a head and then pass out a head, it is more clear
+  and more difficult to make misatakes that break things. Since we are using pointers the memory usage
+  gap is negledgable.

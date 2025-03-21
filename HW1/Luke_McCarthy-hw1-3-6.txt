@@ -1,0 +1,124 @@
+--- Problem 3 ---
+Set the memory cell at absolute address 51 to the value 72.
+
+1.  mov R0 63 ; create reg with 63 
+    mov R1 9 ; then with 9
+    add R0 R1 ; and add so we get to 72
+    mov R2 51 ; store the address 51 to a register
+    mov [R2] R0 ; then write that data from R0 to the memory in R1
+    halt
+2. 503F5049100150B370800000 
+    0101 0000 0011 1111: 503F
+    0101 0000 0100 1001: 5049
+    0001 0000 0000 0001: 1001
+    0101 0000 1011 0011: 50B3
+    0111 0000 1000 0000: 7080
+    0000 0000 0000 0000: 0000
+3. While the registers actually are 16 bit, our ISA only allows for up to 6 bit assignments (so max 63). Thus two registers have to be created and added to get to the proper value. After that, the desired memory address is written to a register and the large number is written to it.
+
+--- Problem 4 ---
+Set memory cells 100 through 118 to the value 0 through 18.
+
+1.  mov R0 19 
+    mov R1 63
+    mov R2 0
+    mov R3 37
+    add R1 R3 ; goes to 100
+    mov [R1] R2
+    inc R1
+    inc R2
+    cmp R0 R2
+    jne 3 
+    halt
+2. 5013507F508050E510437042C001C0024002D7FC0000
+  0101 0000 0001 0011: 5013
+  0101 0000 0111 1111: 507F
+  0101 0000 1000 0000: 5080
+  0101 0000 1110 0101: 50E5
+  0001 0000 0100 0011: 1043
+  0111 0000 0100 0010: 7042
+  1100 0000 0000 0000: C001
+  1100 0000 0000 0010: C002
+  0100 0000 0000 0010: 4002
+  1101 0111 1111 1100: D7FC
+  0000 0000 0000 0000: 0000
+3. In a similar fashion to the previous problem, two registers have to be added together to be able to reach 100 (the desired memory address). After this two more registers are set for the max value to compare against (19) and the value to be written to those memory addresses. Once those are set, the program loops through incrementing both the register to be set and the value to be set to those addresses recursively, using a negative jump to loop.
+
+--- Problem 5 ---
+Set the odd numbered memory cells between 100 and 200 to the same value as the address of that memory cell.
+
+1.  mov R0 63
+    mov R1 37
+    add R0 R1 ; R0 is now 100
+    mov R1 R0 ; R1 is now 100
+    add R1 R0 ; R1 is now 200 (limit)
+    mov [R0] R0
+    inc R0
+    inc R0
+    cmp R0 R1
+    jne -4
+    halt
+2. 503F50651001604010407000C000C0004001D7FC0000 
+    0101 0000 0011 1111: 503F
+    0101 0000 0110 0101: 5065
+    0001 0000 0000 0001: 1001
+    0110 0000 0100 0000: 6040 
+    0001 0000 0100 0000: 1040
+    0111 0000 0000 0000: 7000
+    1100 0000 0000 0000: C000
+    1100 0000 0000 0000: C000
+    0100 0000 0000 0001: 4001
+    1101 0111 1111 1100: D7FC 
+    0000 0000 0000 0000: 0000
+3. After a bit of finagling to get R0 to equal 100 and R1 to equal 200 (due to having to work around the max assignment being 6 bits), R0 can be used as both the memory pointer and the value to be written to the addresses while R1 acts as a limit on the max iteration. The program then loops through until the task is complete.
+
+--- Problem 6 --- 
+Write code to multiply the contents of memory cells 9 and 18, placing the result in memory cell 72. Your code should initialize memory cells 9 and 18 to some non-zero values and should work for any initial values of those cells (we will test it with different values).
+
+first memory address 9 & 18 pointers are set to R0 & R1
+R2 has 72 in it to be used as a memory pointer
+set some values to 9 & 18
+R3 has value from 9
+R4 has value from 18
+R5 is muliplication location
+R6 is accumulator
+R3 is added to R5
+R6 is accumulated
+compare R4 to R6 and if they're equal, end it
+
+1.  mov R0 9
+    mov R1 18
+    mov R2 63
+    add R2 R0 ; so R2 is now 72 
+    mov R3 11
+    mov R4 7
+    mov [R0] R3
+    mov [R1] R4 ; we're writing the data to memory
+    mov R3 [R0]
+    mov R4 [R1] ; we're reading back the numbers
+    mov R0 0 ; redefine R0 as incrementer as that memory no longer needs to be accessed
+    add R5 R3
+    inc R0
+    cmp R4 R0 ; checks if you've multiplied enough times
+    jne -3
+    mov [R2] R5
+    halt
+2. 5009505250BF108050CB51077003704480C0810150001143C0004100D7FD70850000
+    0101 0000 0000 1001: 5009
+    0101 0000 0101 0010: 5052
+    0101 0000 1011 1111: 50BF
+    0001 0000 1000 0000: 1080
+    0101 0000 1100 1011: 50CB
+    0101 0001 0000 0111: 5107
+    0111 0000 0000 0011: 7003
+    0111 0000 0100 0100: 7044
+    1000 0000 1100 0000: 80C0
+    1000 0001 0000 0001: 8101
+    0101 0000 0000 0000: 5000
+    0001 0001 0100 0011: 1143
+    1100 0000 0000 0000: C000
+    0100 0001 0000 0000: 4100
+    1101 0111 1111 1101: D7FD
+    0111 0000 1000 0101: 7085
+    0000 0000 0000 0000: 0000
+3. The program writes the values it will be later mulitplying to memory, then reads them back. Then to mulitply it uses 4 registers: first is the first value, second is the second value, third is the location it is summing to, and fourth is the accumulator. It repeatedly adds the first value to the summation register and each time it increments the accumulator. Once the accumulator reaches the same value as the second value, it knows multiplication is complete is halts.

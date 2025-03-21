@@ -1,0 +1,47 @@
+1. C807: 1100 1000 0000 0111
+  a. jmp 7
+  b. This will jump forward 7 indices in the PC. e.g. 10 would jump to 17. 
+2. 7045: 0111 0000 0100 0101
+  a. mov [R1], R5
+  b. Copies data forom register R5 into absolute memory address stored in R1. 
+3. 5021C0014083D800
+  i.    5021: 0011 0000 0010 0001 
+  ii.   C001: 1100 0000 0000 0001
+  iii.  4083: 0100 0000 1000 0011 
+  iv.   D800: 1101 1000 0000 0000
+  a. xor R0 R33 , inc R1 , cmp R2 R3 , je 0
+  b.
+    i.    Do bitwise xor on register 0 & 33 and write the contents to register 0
+    ii.   Increment register 1
+    iii.  Compare the contents of register 2 & 3 and sets the appropriate flag if it's true or false
+    iv.   Jump to the location stored in register 0 if previous compare was true.
+4. C000506C7040
+  i.   C000: 1100 0000 0000 0000
+  ii.  506C: 0101 0000 0110 1100
+  iii. 7040: 0111 0000 0100 0000
+  a. inc R0 , mov R1 44 , mov [R1] 0
+  b.
+    i.    Increment R0 by 1
+    ii.   Set the contents of R1 to 44
+    iii.  Set the absolute memory address stored in R1 (44) to 0
+5. 5028504A5083C00311024043D800CFFC0000
+  i.    5028: 0101 0000 0010 1000
+  ii.   504A: 0101 0000 0100 1010
+  iii.  5083: 0101 0000 1000 0011
+  iv.   C003: 1100 0000 0000 0011
+  v.    1102: 0001 0001 0000 0010
+  vi.   4043: 0100 0000 0100 0011
+  vii.  D800: 1101 1000 0000 0000 
+  viii. CFFC: 1100 1111 1111 1100 
+  ix.   0000: 0000 0000 0000 0000
+  a. mov R0 40 , mov R1 10, mov R2 3 , inc R3 , add R4 R2 , cmp R1 R3, je 0, jmp 2044, halt
+  b.
+    i.    Set register R0 to 40
+    ii.   Set register R1 to 10
+    iii.  Set register R2 to 3
+    iv.   Increment register R3
+    v.    Add R4 & R2 and write that result to R4
+    vi.   Compare registers R1 & R3 then set the appropriate EFLAG
+    vii.  If previous compare was successful, jump to the memory address stored at R0.   
+    viii. Jump the program counter forward 2044. 
+    xi. Stop the program.

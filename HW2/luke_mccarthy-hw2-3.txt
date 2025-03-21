@@ -1,0 +1,5 @@
+### Method 1: Pass-by-value
+Pass-by-value was the method used in problem 1. It's main benefits are simplicity and memory safety. It is simple to pass variables around, and there are no chances of memory conflicts if both functions have their own copy of a variable. The trade-off it makes for this is memory inefficiency. For each new function call, and each new frame, an entire copy of those variables have to be cloned and put on the stack. If you're working with large datasets this can cause obvious memory usage problems.
+
+### Method 2: Pass-by-reference (or pass-by-pointer)
+Pass-by-reference is the method used in problem 2. It's main benefits are speed and memory usage. Since you don't need to make a copy of the data in a variable to use pass-by-reference, it is both faster and less memory intensive. The new frame only has to store a data address, not the data itself which can be dramatically more memory efficient (depending on the data in use). The trade off is memory safety. If multiple functions are working with the same variable, especially at the same time, conflicts and race conditions can occur which can cause serious and difficult to debug issues.

@@ -19,6 +19,10 @@ public:
    */
   ComplexNumber(const int r, const int i) : real(r), imag(i) {}
   /**
+   * Virtual destructor
+   */
+  virtual ~ComplexNumber() {}
+  /**
    * Returns the real compoenent
    * @return The real component as a integer
    */

@@ -54,15 +54,29 @@ ComplexNumber *Quaternion::multiply(const ComplexNumber &other) {
   const Quaternion *otherQuat = dynamic_cast<const Quaternion *>(&other);
 
   if (otherQuat) {
-    // Case 1: 'other' is a Quaternion → add all four components
-    return new Quaternion(real * other.getReal(), imag * other.getImag(),
-                          j * otherQuat->getJ(), k * otherQuat->getK());
+    // Case 1: Both are Quaternions
+    int w1 = real, x1 = imag, y1 = j, z1 = k;
+    int w2 = other.getReal(), x2 = other.getImag();
+    int y2 = otherQuat->getJ(), z2 = otherQuat->getK();
+
+    int newReal = w1 * w2 - x1 * x2 - y1 * y2 - z1 * z2;
+    int newImag = w1 * x2 + x1 * w2 + y1 * z2 - z1 * y2;
+    int newJ = w1 * y2 - x1 * z2 + y1 * w2 + z1 * x2;
+    int newK = w1 * z2 + x1 * y2 - y1 * x2 + z1 * w2;
+
+    return new Quaternion(newReal, newImag, newJ, newK);
   } else {
-    // Case 2: 'other' is a GaussianInteger or ComplexNumber → default j/k to 0
-    return new Quaternion(real * other.getReal(), imag * other.getImag(),
-                          j, // j remains unchanged (multiplies by 1 implicitly)
-                          k  // k remains unchanged (multiplies by 1 implicitly)
-    );
+    // Case 2: Second is complex number
+    int w1 = real, x1 = imag, y1 = j, z1 = k;
+    int w2 = other.getReal(), x2 = other.getImag();
+    int y2 = 0, z2 = 0;
+
+    int newReal = w1 * w2 - x1 * x2 - y1 * y2 - z1 * z2;
+    int newImag = w1 * x2 + x1 * w2 + y1 * z2 - z1 * y2;
+    int newJ = w1 * y2 - x1 * z2 + y1 * w2 + z1 * x2;
+    int newK = w1 * z2 + x1 * y2 - y1 * x2 + z1 * w2;
+
+    return new Quaternion(newReal, newImag, newJ, newK);
   }
 }
 

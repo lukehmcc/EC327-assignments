@@ -15,14 +15,84 @@ TEST(GaussianIntegerTest, AddMethod) {
 
 // Test the multiply method
 TEST(GaussianIntegerTest, MultiplyMethod) {
-  GaussianInteger g1(3, 4);
-  GaussianInteger g2(1, 2);
-  ComplexNumber *result = g1.multiply(g2);
+  // Case 1: Basic multiplication (positive numbers)
+  {
+    GaussianInteger g1(2, 3);
+    GaussianInteger g2(4, 5);
+    ComplexNumber *result = g1.multiply(g2);
+    EXPECT_EQ(result->getReal(), (2 * 4 - 3 * 5)); // -7
+    EXPECT_EQ(result->getImag(), (2 * 5 + 3 * 4)); // 22
+    delete result;
+  }
 
-  EXPECT_EQ(result->getReal(), 3); // (3*1) = 3
-  EXPECT_EQ(result->getImag(), 8); // (4*2) = 8
+  // Case 2: One negative component
+  {
+    GaussianInteger g1(-1, 2);
+    GaussianInteger g2(3, -4);
+    ComplexNumber *result = g1.multiply(g2);
+    EXPECT_EQ(result->getReal(), (-1 * 3 - 2 * (-4))); // 5
+    EXPECT_EQ(result->getImag(), (-1 * (-4) + 2 * 3)); // 10
+    delete result;
+  }
 
-  delete result; // Clean up dynamically allocated memory
+  // Case 3: Both negative components
+  {
+    GaussianInteger g1(-2, -3);
+    GaussianInteger g2(-4, -5);
+    ComplexNumber *result = g1.multiply(g2);
+    EXPECT_EQ(result->getReal(), (-2 * -4 - -3 * -5)); // -7
+    EXPECT_EQ(result->getImag(), (-2 * -5 + -3 * -4)); // 22
+    delete result;
+  }
+
+  // Case 4: Multiplication with zero
+  {
+    GaussianInteger g1(0, 0);
+    GaussianInteger g2(3, 4);
+    ComplexNumber *result = g1.multiply(g2);
+    EXPECT_EQ(result->getReal(), 0);
+    EXPECT_EQ(result->getImag(), 0);
+    delete result;
+  }
+
+  // Case 5: Identity multiplication (1 + 0i)
+  {
+    GaussianInteger g1(1, 0);
+    GaussianInteger g2(3, 4);
+    ComplexNumber *result = g1.multiply(g2);
+    EXPECT_EQ(result->getReal(), 3);
+    EXPECT_EQ(result->getImag(), 4);
+    delete result;
+  }
+
+  // Case 6: Imaginary unit multiplication (0 + 1i)
+  {
+    GaussianInteger g1(0, 1);
+    GaussianInteger g2(3, 4);
+    ComplexNumber *result = g1.multiply(g2);
+    EXPECT_EQ(result->getReal(), -4); // (0*3 - 1*4)
+    EXPECT_EQ(result->getImag(), 3);  // (0*4 + 1*3)
+    delete result;
+  }
+
+  // Case 7: Large numbers
+  {
+    GaussianInteger g1(100, 200);
+    GaussianInteger g2(300, 400);
+    ComplexNumber *result = g1.multiply(g2);
+    EXPECT_EQ(result->getReal(), (100 * 300 - 200 * 400)); // -50000
+    EXPECT_EQ(result->getImag(), (100 * 400 + 200 * 300)); // 100000
+    delete result;
+  }
+
+  // Case 8: Equal numbers (squaring)
+  {
+    GaussianInteger g1(5, 7);
+    ComplexNumber *result = g1.multiply(g1);
+    EXPECT_EQ(result->getReal(), (5 * 5 - 7 * 7)); // -24
+    EXPECT_EQ(result->getImag(), (5 * 7 + 7 * 5)); // 70
+    delete result;
+  }
 }
 
 // Test the conjugate method

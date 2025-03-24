@@ -42,9 +42,9 @@ ComplexNumber *GaussianInteger::add(const ComplexNumber &other) {
  * @return The mulitplcation of these two complex number
  */
 ComplexNumber *GaussianInteger::multiply(const ComplexNumber &other) {
-  ComplexNumber *toReturn =
-      new GaussianInteger(real * other.getReal(), imag * other.getImag());
-  return toReturn;
+  int newReal = (real * other.getReal()) - (imag * other.getImag());
+  int newImag = (real * other.getImag()) + (imag * other.getReal());
+  return new GaussianInteger(newReal, newImag);
 }
 /**
  * Computes the conjugate

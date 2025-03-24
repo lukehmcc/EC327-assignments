@@ -153,6 +153,7 @@ bool GaussianInteger::operator==(const GaussianInteger &other) const {
  * produces 2 + 0i
  */
 std::ostream &operator<<(std::ostream &os, const GaussianInteger &other) {
-  os << other.real << " + " << other.imag << "i";
+  os << other.real << (other.imag >= 0 ? " + " : " - ") << std::abs(other.imag)
+     << "i";
   return os;
 }

@@ -33,8 +33,8 @@ TEST(GaussianIntegerTest, MultiplicationOperator) {
 
 // Test the output stream operator
 TEST(GaussianIntegerTest, OutputStreamOperator) {
-  GaussianInteger g(3, 4);
+  GaussianInteger g(3, -4);
   std::ostringstream oss;
   oss << g;
-  EXPECT_EQ(oss.str(), "3 + 4i");
+  EXPECT_EQ(oss.str(), "3 - 4i");
 }

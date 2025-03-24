@@ -92,7 +92,8 @@ ComplexNumber *Quaternion::conjugate() {
  * "3 + 2i - 4j + 0k"
  */
 std::ostream &operator<<(std::ostream &os, const Quaternion &other) {
-  os << other.real << " + " << other.imag << "i" << " + " << other.j << "j"
-     << " + " << other.k << "k";
+  os << other.real << (other.imag >= 0 ? " + " : " - ") << std::abs(other.imag)
+     << "i" << (other.j >= 0 ? " + " : " - ") << std::abs(other.j) << "j"
+     << (other.k >= 0 ? " + " : " - ") << std::abs(other.k) << "k";
   return os;
 }

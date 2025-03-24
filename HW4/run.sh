@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Compile the .cpp file into an executable
-g++ -std=c++17 -lgtest -lgtest_main -pthread -o main *.cpp
+g++ -std=c++17 -lgtest -lgtest_main -pthread -o main ./src/*.cpp ./tests/*.cpp
 # Check if compilation was successful
 if [[ $? -eq 0 ]]; then
   echo "Running main..."

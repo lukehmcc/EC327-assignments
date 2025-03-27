@@ -11,10 +11,18 @@ include(GoogleTest)
 
 # Add all CPP files in src/ (automatic discovery)
 file(GLOB SOURCES "src/*.cpp")
-file(GLOB TEST_SOURCES "test/*.cpp")
+list(REMOVE_ITEM SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+file(GLOB TEST_SOURCES "tests/*.cpp")
 
-# Create main executable
-add_executable(exam_extra ${SOURCES} ${TEST_SOURCES})
+# Create main executable (without test files)
+add_executable(exam_extra "src/main.cpp" ${SOURCES})
+
+# Create test executable (only test files)
+add_executable(exam_tests ${SOURCES} ${TEST_SOURCES})
+target_link_libraries(exam_tests GTest::GTest GTest::Main)
+
+# Register tests with CTest
+gtest_discover_tests(exam_tests)
 
 # Single-command run support (for your main program)
 add_custom_target(run ALL
@@ -24,3 +32,10 @@ add_custom_target(run ALL
     COMMENT "Running main program..."
 )
 
+# Single-command run support (for your main program)
+add_custom_target(test ALL
+    COMMAND ./exam_tests
+    DEPENDS exam_tests
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Running main program..."
+)

@@ -58,6 +58,8 @@ class Graph {
 private:
   std::set<int> vertices;              // set of vertices
   std::set<std::pair<int, int>> edges; // set of edges
+  set<int> findNeighbors(int ID);
+
 public:
   // Problem 1
   Graph &operator+=(int ID);
@@ -67,6 +69,8 @@ public:
   int numEdges();
   // Problem 2
   set<int> twoHopNeighbors(int ID);
+  set<int> getVerticies() { return vertices; }
+  set<pair<int, int>> getEdges() { return edges; }
   /**
    * Create your public variables and functions that you think will be
    * useful(shouldn’t need any public functions, all helper functions and

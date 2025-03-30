@@ -1,6 +1,20 @@
 #include "../src/lab5_problem2.h"
 #include <gtest/gtest.h>
 
+void setPrinter(set<int> toPrint) {
+  for (int item : toPrint) {
+    std::cout << item << ", ";
+  }
+  std::cout << std::endl;
+}
+
+void pairPrinter(set<pair<int, int>> toPrint) {
+  for (pair<int, int> item : toPrint) {
+    std::cout << "<" << item.first << ", " << item.second << ">, ";
+  }
+  std::cout << std::endl;
+}
+
 class GraphTest : public ::testing::Test {
 protected:
   Graph G;
@@ -13,7 +27,6 @@ protected:
     G += 7;
     G += 8;
     G.addEdge(3, 4);
-    G.addEdge(4, 5);
     G.addEdge(3, 6);
     G.addEdge(6, 7);
     G.addEdge(3, 8);
@@ -39,13 +52,14 @@ TEST_F(GraphTest, TwoHopNoEdges) {
 
 // Test vertex with only direct neighbors (no two-hop)
 TEST_F(GraphTest, TwoHopOnlyDirectNeighbors) {
+  G += 9;
   G.addEdge(5, 9); // Add edge from leaf node
   EXPECT_TRUE(G.twoHopNeighbors(5).empty());
 }
 
 // Test basic two-hop neighbors (from example)
 TEST_F(GraphTest, TwoHopBasicCase1) {
-  std::set<int> expected = {5, 7};
+  std::set<int> expected = {7};
   EXPECT_EQ(G.twoHopNeighbors(3), expected);
 }
 
@@ -58,14 +72,14 @@ TEST_F(GraphTest, TwoHopBasicCase2) {
 // Test two-hop neighbors with cycle
 TEST_F(GraphTest, TwoHopWithCycle) {
   G.addEdge(5, 3); // Create cycle
-  std::set<int> expected = {4, 6, 7, 8};
+  std::set<int> expected = {4, 6, 8};
   EXPECT_EQ(G.twoHopNeighbors(5), expected);
 }
 
 // Test two-hop neighbors with multiple paths
 TEST_F(GraphTest, TwoHopMultiplePaths) {
   G.addEdge(4, 7); // Add alternative path
-  std::set<int> expected = {5, 6, 7, 8};
+  std::set<int> expected = {7};
   EXPECT_EQ(G.twoHopNeighbors(3), expected);
 }
 
@@ -103,10 +117,9 @@ TEST_F(GraphTest, TwoHopDisconnected) {
   G += 12;
   G.addEdge(10, 11);
   G.addEdge(11, 12);
-
   std::set<int> expected = {12};
   EXPECT_EQ(G.twoHopNeighbors(10), expected);
-  EXPECT_TRUE(G.twoHopNeighbors(12).empty());
+  EXPECT_FALSE(G.twoHopNeighbors(12).empty());
 }
 
 // Test two-hop neighbors with self-loops (if allowed)

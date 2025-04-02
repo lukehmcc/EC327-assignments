@@ -9,10 +9,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(GTest REQUIRED)
 include(GoogleTest)
 
-# Add all CPP files in src/ (automatic discovery)
-file(GLOB SOURCES "src/*.cpp")
-list(REMOVE_ITEM SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
-file(GLOB TEST_SOURCES "tests/*.cpp")
+set(SOURCES
+)
+
+set(TEST_SOURCES
+  tests/test.cpp
+)
 
 # Create main executable (without test files)
 add_executable(main "src/main.cpp" ${SOURCES})

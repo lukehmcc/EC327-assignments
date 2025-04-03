@@ -1,0 +1,5 @@
+1. The trade off between ordered and un-orderd maps are the difference in performance when doing different tasks. An un-orderd map has O(1) read & write times but O(nlog(n)) (because it has to collect all elements then sort them) sorted list returns (so when you get the sorted leaderboard). But an ordered map has O(log(n)) read & write times and O(N) sorted list returns. I assume that this application has very frequent score updates (like in a mulitplayer game for example), but less frequent sorted list returns and thus an un-ordered map should be more performant.
+
+2. addOrUpdatePlayer() -> O(1)
+   removePlayer() -> O(1)
+   getTopN() -> O(nlog(n))

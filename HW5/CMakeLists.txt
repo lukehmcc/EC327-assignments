@@ -12,11 +12,14 @@ include(GoogleTest)
 set(SOURCES
   src/Leaderboard.h 
   src/Leaderboard.cpp
+  src/PolishNotation.h 
+  src/PolishNotation.cpp
 )
 
 set(TEST_SOURCES
   tests/test.cpp
   tests/leaderboard_tests.cpp
+  tests/polish_tests.cpp
 )
 
 # Create main executable (without test files)
